@@ -40,13 +40,13 @@ public class WatermarkUtil {
      */
     public static int getWatermarkAlpha() {
         if (!isLibraryLoaded) {
-            return 30;
+            return 255;
         }
         try {
             return getWatermarkAlphaNative();
         } catch (UnsatisfiedLinkError e) {
             //Log.printStackTrace(e);
-            return 30;
+            return 255;
         }
     }
     
