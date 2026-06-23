@@ -21,7 +21,7 @@ public class CustomOption extends IdAndName {
     getContinuousUseCardOptions() {
         List<CustomOption> list = new ArrayList<>();
         list.add(new CustomOption("doubleClick", "使用限时双击卡和兑换使用31天双击卡"));
-        list.add(new CustomOption("robExpandCard", "按现存最高倍使用收能量倍卡"));
+        list.add(new CustomOption("robExpandCard", "先现倍率无生效则用最高倍收能量倍卡"));
         list.add(new CustomOption("shield", "兑换和使用限时保护罩卡"));
         list.add(new CustomOption("stealthCard", "兑换和使用限制隐身卡"));
         //list.add(new CustomOption("energyBombCard", "兑换和使用炸弹卡"));
@@ -41,7 +41,7 @@ public class CustomOption extends IdAndName {
         list.add(new CustomOption("familyFeed", "帮喂成员"));
         list.add(new CustomOption("familyEatTogether", "美食请客"));
         list.add(new CustomOption("familyClaimReward", "领取奖励"));
-        //list.add(new CustomOption("deliverMsgSend", "道早安"));
+        list.add(new CustomOption("deliverMsgSend", "道早安"));
         list.add(new CustomOption("assignRights", "顶梁柱"));
         list.add(new CustomOption("shareToFriends", "分享给好友"));
         return list;

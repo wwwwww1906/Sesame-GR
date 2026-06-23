@@ -114,8 +114,8 @@ public class AntForestRpcCall {
         return ApplicationHook.requestString("alipay.antforest.forest.h5.collectRebornEnergy", "[{\"source" + "\":\"chInfo_ch_appcenter__chsub_9patch\"}]");
     }
     
-    public static String transferEnergy(String targetUser, String bizNo, int energyId) {
-        return ApplicationHook.requestString("alipay.antmember.forest.h5.transferEnergy", "[{\"bizNo\":\"" + bizNo + UUID.randomUUID().toString() + "\",\"energyId\":" + energyId + ",\"extInfo" + "\":{\"sendChat\":\"N\"},\"from\":\"friendIndex\"," + "\"source" +
+    public static String transferEnergy(String targetUser, String bizNo, int energyId,String sendChat) {
+        return ApplicationHook.requestString("alipay.antmember.forest.h5.transferEnergy", "[{\"bizNo\":\"" + bizNo + UUID.randomUUID().toString() + "\",\"energyId\":" + energyId + ",\"extInfo" + "\":{\"sendChat\":\""+sendChat+"\"},\"from\":\"friendIndex\"," + "\"source" +
                                                                                           "\":\"chInfo_ch_appcenter__chsub_9patch\",\"targetUser\":\"" + targetUser + "\"," + "\"transferType\":\"WATERING\",\"version\":\"" + VERSION + "\"}]");
     }
     
@@ -127,7 +127,12 @@ public class AntForestRpcCall {
     public static String vitalitySign() {
         return ApplicationHook.requestString("alipay.antforest.forest.h5.vitalitySign", "[{\"source" + "\":\"chInfo_ch_appcenter__chsub_9patch\"}]");
     }
-    
+
+    public static String queryCommonSign(String sceneCode) {
+        String args = "[{\"bizType\":\""+sceneCode+"\",\"source\":\"chInfo_ch_appcenter__chsub_9patch\",\"withEntity\":true}]";
+        return ApplicationHook.requestString("alipay.antforest.forest.h5.queryCommonSign", args);
+    }
+
     public static String antiepSign(String entityId, String userId, String sceneCode) {
         String args = "[{\"entityId\":\"" + entityId + "\",\"requestType\":\"rpc\",\"sceneCode\":\"" + sceneCode + "\",\"source\":\"ANTFOREST\",\"userId\":\"" + userId + "\"}]";
         return ApplicationHook.requestString("com.alipay.antiep.sign", args);
@@ -270,7 +275,6 @@ public class AntForestRpcCall {
         
         //return ApplicationHook.requestString("alipay.antforest.forest.h5.consumeProp", "[{\"propId\":\"" + propId + "\",\"propType\":\"" + propType + "\",\"source\":\"chInfo_ch_appcenter__chsub_9patch\"," + "\"timezoneId\":\"Asia/Shanghai\",\"version\":\"" + VERSION + "\"}]");
     }
-    
     public static String consumeProp(String propGroup, String propId, String propType) {
         String sToken = System.currentTimeMillis() + "_" + getRandomString(8);
         return ApplicationHook.requestString("alipay.antforest.forest.h5.consumeProp",
@@ -680,6 +684,7 @@ public class AntForestRpcCall {
     /**
      * 森林抽抽乐-任务-活力值兑换抽奖次数
      */
+    //{"activityId":"2026051801","requestType":"RPC","sceneCode":"ANTFOREST_NORMAL_DRAW","source":"IPtanchuang","taskSceneCode":"ANTFOREST_NORMAL_DRAW_TASK","taskType":"NORMAL_DRAW_EXCHANGE_VITALITY"}
     public static String exchangeTimesFromTaskopengreen(String activityId, String sceneCode, String source, String taskSceneCode, String taskType) {
         //{"activityId":"2025060301","requestType":"RPC","sceneCode":"ANTFOREST_NORMAL_DRAW","source":"task_entry",
         // "taskSceneCode":"ANTFOREST_NORMAL_DRAW_TASK","taskType":"NORMAL_DRAW_EXCHANGE_VITALITY"}
@@ -781,7 +786,7 @@ public class AntForestRpcCall {
      * @param inTeam 是否在队伍中（true = Y，false = N）
      * @return 返回 RPC 响应字符串
      */
-    public static String updateUserConfig(boolean inTeam) {
+    public static String updateUserConfiginTeam(boolean inTeam) {
         String inTeamValue = inTeam ? "Y" : "N";
         String args = "[{" + "\"configMap\":{\"inTeam\":\"" + inTeamValue + "\"}," + "\"source\":\"chInfo_ch_appcenter__chsub_9patch\"" + "}]";
         
@@ -833,5 +838,37 @@ public class AntForestRpcCall {
         // 构造 H5 RPC 参数
         String args = "[{\"queryBizType\":\"" + queryBizType + "\",\"source\":\"SELF_HOME\",\"targetUserId\":\"" + teamId + "\",\"version\":\"" + VERSION + "\"}]";
         return ApplicationHook.requestString("alipay.antforest.forest.h5.queryMiscInfo", args);
+    }
+
+    public static String queryUserTag() {
+        String args = "[{}]";
+        return ApplicationHook.requestString("alipay.antmember.h5.queryUserTag", args);
+    }
+
+    public static String updateUserConfigEnergyPvp(boolean energyPvp) {
+        String energyPvpValue = energyPvp ? "Y" : "N";
+        String args = "[{" + "\"configMap\":{\"energyPvp\":\"" + energyPvpValue + "\"}," + "\"source\":\"chInfo_ch_appcenter__chsub_9patch\"" + "}]";
+        return ApplicationHook.requestString("alipay.antforest.forest.h5.updateUserConfig", args);
+    }
+
+    public static String checkRewardqueryMiscInfo() {
+        String args = "[{\"extInfo\":\"{\\\"checkReward\\\":true}\",\"queryBizType\":\"energyPvpInfo\",\"source\":\"chInfo_ch_appcenter__chsub_9patch\"}]";
+        return ApplicationHook.requestString("alipay.antforest.forest.h5.queryMiscInfo", args);
+    }
+
+    public static String receivePvpRewards() {
+        String args = "[{\"source\":\"chInfo_ch_appcenter__chsub_9patch\"}]";
+        return ApplicationHook.requestString("alipay.antforest.forest.h5.receivePvpRewards", args);
+    }
+
+
+    public static String queryPvpHomeInfo() {
+        String args = "[{\"queryWaitToReceive\":true,\"source\":\"chInfo_ch_appcenter__chsub_9patch\"}]";
+        return ApplicationHook.requestString("alipay.antforest.forest.h5.queryPvpHomeInfo", args);
+    }
+
+    public static String queryOptionalPlay() {
+        String args1 = "[{\"bizType\":\"ANTFOREST\",\"commonDegradeFilterRequest\":{\"appMode\":\"normal\",\"deviceLevel\":\"high\",\"platform\":\"Android\",\"unityDeviceLevel\":\"high\"},\"playTypeList\":[\"TASK_TRIGGER\",\"TOP_UP_COUPON\"],\"recentAppRecordList\":[],\"requestType\":\"RPC\",\"sceneCode\":\"ANTFOREST_COMMON\",\"source\":\"chInfo_ch_appcenter__chsub_9patch\",\"version\":\"" + VERSION + "\"}]";
+        return ApplicationHook.requestString("com.alipay.charitygamecenter.queryOptionalPlay", args1);
     }
 }

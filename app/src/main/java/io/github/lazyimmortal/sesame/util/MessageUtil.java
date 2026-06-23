@@ -259,6 +259,13 @@ public class MessageUtil {
                         if (errorCode.contains("TASK_ID_INVALID")) {
                             canAddBlackList = true;
                         }
+
+                    }
+                    if (jo.has("errorMsg")) {
+                        String errorMsg = jo.optString("errorMsg");
+                        if (errorMsg.contains("海豚活动触发不可重试错误")) {
+                            canAddBlackList = true;
+                        }
                     }
                     if (canAddBlackList) {
                         MarkTaskBlackList("AntSports", listTitle, "运动任务", taskTitle);
@@ -276,7 +283,7 @@ public class MessageUtil {
                 case "MemberCreditSesameTaskList":
                     if (jo.has("resultView")) {
                         String resultView = jo.optString("resultView");
-                        if (resultView.contains("不是有效的入参")) {
+                        if (resultView.contains("不是有效的入参") || resultView.contains("存在进行中的生活记录")) {
                             canAddBlackList = true;
                         }
                     }
